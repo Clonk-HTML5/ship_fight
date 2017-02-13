@@ -1,34 +1,49 @@
 /* globals __DEV__ */
 import Phaser from 'phaser'
-import Mushroom from '../sprites/Mushroom'
+import GameAbstract from './GameAbstract'
+import Level2 from '../maps/Level2'
 
-export default class extends Phaser.State {
+export default class extends GameAbstract {
   init () {}
-  preload () {}
+  preload () {
+    super.preload();
+    game.load.tilemap('level2', '/assets/tilemap/level2.json', null, Phaser.Tilemap.TILED_JSON);
+    game.load.image('tiles', '/assets/tilemap/tileset.png');
+    game.load.image('tiles', '/assets/tilemap/tileset.png');
+  }
 
   create () {
-    const bannerText = 'Phaser + ES6 + Webpack'
-    let banner = this.add.text(this.world.centerX, this.game.height - 80, bannerText)
-    banner.font = 'Bangers'
-    banner.padding.set(10, 16)
-    banner.fontSize = 40
-    banner.fill = '#77BFA3'
-    banner.smoothed = false
-    banner.anchor.setTo(0.5)
+    super.create();
 
-    this.mushroom = new Mushroom({
-      game: this,
-      x: this.world.centerX,
-      y: this.world.centerY,
-      asset: 'mushroom'
-    })
+    Level2.initTilemap();
 
-    this.game.add.existing(this.mushroom)
   }
+
+  // initTilemap() {
+  //   let map = game.add.tilemap('level2');
+  //   this.map = map;
+  //
+  //   map.addTilesetImage('tiles', 'tiles');
+  //   map.createLayer('Base');
+  //
+  //   let collisionLayer = map.createLayer('Collision');
+  //   this.collisionLayer = collisionLayer;
+  //
+  //   collisionLayer.visible = false;
+  //
+  //   map.setCollisionByExclusion([], true, this.collisionLayer);
+  //
+  //   collisionLayer.resizeWorld();
+  //
+  //   // this.initPlayer();
+  //
+  //   // let exit = this.map.objects.Meta.find( o => o.name == 'exit');
+  //   // this.exitRect = new Phaser.Rectangle(exit.x, exit.y, exit.width, exit.height);
+  // }
 
   render () {
     if (__DEV__) {
-      this.game.debug.spriteInfo(this.mushroom, 32, 32)
+      // this.game.debug.spriteInfo(this.mushroom, 32, 32)
     }
   }
 }
